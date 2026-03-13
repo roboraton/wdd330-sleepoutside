@@ -4,16 +4,16 @@ function renderCartContents() {
   const cartItems = getLocalStorage("so-cart");
   const productList = document.querySelector(".product-list");
   if (cartItems && cartItems.length > 0) {
-    const htmlItems = cartItems.map((item) => cartItemTemplate(item));
+    const htmlItems = cartItems.map((item, index) => cartItemTemplate(item, index));
     productList.innerHTML = htmlItems.join("");
   } else {
     productList.innerHTML = "<li>Your cart is empty.</li>";
   }
 }
 
-function cartItemTemplate(item) {
+function cartItemTemplate(item, index) {
   const newItem = `<li class="cart-card divider">
-    <span class="cart-card__remove" data-id="${item.Id}">X</span>
+    <span class="cart-card__remove" data-id="${index}">X</span>
     <a href="#" class="cart-card__image">
       <img
         src="${item.Image}"
@@ -31,10 +31,10 @@ function cartItemTemplate(item) {
   return newItem;
 }
 
-function removeFromCart(productId) {
+function removeFromCart(itemIndex) {
   const cartItems = getLocalStorage("so-cart") || [];
-  const updatedCart = cartItems.filter((item) => item.Id !== productId);
-  setLocalStorage("so-cart", updatedCart);
+  cartItems.splice(itemIndex, 1);
+  setLocalStorage("so-cart", cartItems);
   renderCartContents();
 }
 

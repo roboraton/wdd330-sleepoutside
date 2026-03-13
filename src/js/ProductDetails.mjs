@@ -1,7 +1,3 @@
-// The following code is adapted for educational purposes. 
-// If using in production, ensure compliance with the original repository's license: 
-// https://github.com/mbencomo2/sleep-outside
-
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 export default class ProductDetails {
@@ -20,9 +16,12 @@ export default class ProductDetails {
   }
 
   addProductToCart() {
-    const cart = getLocalStorage("so-cart") || [];
-    cart.push(this.product);
-    setLocalStorage("so-cart", cart);
+    let cartItems = getLocalStorage("so-cart");
+    if (!Array.isArray(cartItems)) {
+      cartItems = [];
+    }
+    cartItems.push(this.product);
+    setLocalStorage("so-cart", cartItems);
   }
 
   renderProductDetails() {
