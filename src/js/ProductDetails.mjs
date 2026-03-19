@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from './utils.mjs';
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -11,21 +11,21 @@ export default class ProductDetails {
     this.product = await this.dataSource.findProductById(this.productId);
     this.renderProductDetails();
     document
-      .getElementById("addToCart")
-      .addEventListener("click", this.addProductToCart.bind(this));
+      .getElementById('addToCart')
+      .addEventListener('click', this.addProductToCart.bind(this));
   }
 
   addProductToCart() {
-    let cartItems = getLocalStorage("so-cart");
+    let cartItems = getLocalStorage('so-cart');
     if (!Array.isArray(cartItems)) {
       cartItems = [];
     }
     cartItems.push(this.product);
-    setLocalStorage("so-cart", cartItems);
+    setLocalStorage('so-cart', cartItems);
   }
 
   renderProductDetails() {
-    document.querySelector(".product-detail").innerHTML = `
+    document.querySelector('.product-detail').innerHTML = `
         <h3>${this.product.Brand.Name}</h3>
         <h2 class="divider">${this.product.NameWithoutBrand}</h2>
         <img class="divider" src="${this.product.Image}" alt="${this.product.Name}" />
