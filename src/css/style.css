@@ -254,6 +254,77 @@ button {
   color: var(--tertiary-color);
 }
 
+/* Product Reviews Section */
+.product-reviews {
+  padding: 1rem;
+  max-width: 500px; /* Igual que tu .product-detail */
+  margin: 2rem auto;
+  border-top: 1px solid var(--light-grey);
+}
+
+.product-reviews h2 {
+  font-family: var(--font-headline);
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+#comments-list {
+  margin-bottom: 2rem;
+}
+
+.comment-card {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  border-left: 5px solid var(--primary-color);
+  box-shadow: 1px 1px 3px var(--light-grey);
+}
+
+.comment-text {
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  padding: 0; /* Resetea el padding general de p */
+}
+
+.comment-date {
+  display: block;
+  font-size: var(--small-font);
+  color: var(--tertiary-color);
+  text-align: right;
+}
+
+/* Form Styles */
+#comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#comment-text {
+  font-family: var(--font-body);
+  padding: 0.75rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+#comment-text:focus {
+  outline: 2px solid var(--primary-color);
+}
+
+#submit-comment {
+  /* Reutiliza tu estilo de botón global pero ajustado */
+  width: 100%;
+  margin: 0;
+}
+
+.no-reviews {
+  text-align: center;
+  color: var(--light-grey);
+  font-size: var(--small-font);
+}
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
