@@ -1,0 +1,1 @@
+const s="https://wdd330-backend.onrender.com/";function n(t){if(t.ok)return t.json();throw new Error("Bad Response")}class r{constructor(){}async getData(a){const o=await fetch(s+`products/search/${a}`);return(await n(o)).Result}async findProductById(a){const o=await fetch(s+`product/${a}`);return(await n(o)).Result}}export{r as P};
