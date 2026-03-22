@@ -19,34 +19,38 @@ export default class ProductList {
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
+    this.originalList = [];
   }
 
   sortProducts(sortBy) {
-    if (sortBy === "name") {
-      this.list.sort((a, b) => a.NameWithoutBrand.localeCompare(b.NameWithoutBrand));
+    if (sortBy === "") {
+      // Reset to original order from API
+      this.renderList(this.originalList);
+    } else if (sortBy === "name") {
+      const sortedList = [...this.originalList].sort((a, b) =>
+        a.NameWithoutBrand.localeCompare(b.NameWithoutBrand)
+      );
+      this.renderList(sortedList);
     } else if (sortBy === "price") {
-      this.list.sort((a, b) => a.FinalPrice - b.FinalPrice);
+      const sortedList = [...this.originalList].sort((a, b) =>
+        a.FinalPrice - b.FinalPrice
+      );
+      this.renderList(sortedList);
     }
-    this.renderList(this.list);
   }
 
   async init() {
-    this.list = await this.dataSource.getData(this.category);
-    this.renderList(this.list);
+    this.originalList = await this.dataSource.getData(this.category);
+    this.renderList(this.originalList);
 
-    // Add sorting select element
-    const sortSelect = document.createElement("select");
-    sortSelect.innerHTML = `
-      <option value="name">Name</option>
-      <option value="price">Price</option>
-    `;
-    this.listElement.before(sortSelect);
-
-    // Attach event listener
-    sortSelect.addEventListener("change", (event) => {
-      const sortBy = event.target.value;
-      this.sortProducts(sortBy);
-    });
+    // Set up sorting event listener
+    const sortSelect = qs("#product-sort");
+    if (sortSelect) {
+      sortSelect.addEventListener("change", (event) => {
+        const sortBy = event.target.value;
+        this.sortProducts(sortBy);
+      });
+    }
   }
 
   renderList(list) {

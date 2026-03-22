@@ -172,6 +172,43 @@ button {
   padding: 1rem;
 }
 
+.product-sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.product-sort-controls label {
+  font-weight: bold;
+  color: var(--dark-grey);
+  white-space: nowrap;
+}
+
+.product-sort-controls select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: var(--font-base);
+  color: var(--dark-grey);
+  cursor: pointer;
+  background-color: white;
+  min-width: 200px;
+}
+
+.product-sort-controls select:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 4px rgba(240, 168, 104, 0.2);
+}
+
+.product-sort-controls select:focus {
+  outline: none;
+  border-color: var(--tertiary-color);
+  box-shadow: 0 0 6px rgba(138, 71, 12, 0.3);
+}
+
 .categories {
   display: flex;
   flex-flow: row wrap;
