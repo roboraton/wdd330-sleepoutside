@@ -1,4 +1,4 @@
-import { renderListWithTemplate } from "./utils.mjs";
+import { renderListWithTemplate, qs } from "./utils.mjs";
 
 function productCardTemplate(product) {
   return `<li class="product-card">
@@ -21,9 +21,32 @@ export default class ProductList {
     this.listElement = listElement;
   }
 
+  sortProducts(sortBy) {
+    if (sortBy === "name") {
+      this.list.sort((a, b) => a.NameWithoutBrand.localeCompare(b.NameWithoutBrand));
+    } else if (sortBy === "price") {
+      this.list.sort((a, b) => a.FinalPrice - b.FinalPrice);
+    }
+    this.renderList(this.list);
+  }
+
   async init() {
-    const list = await this.dataSource.getData(this.category);
-    this.renderList(list);
+    this.list = await this.dataSource.getData(this.category);
+    this.renderList(this.list);
+
+    // Add sorting select element
+    const sortSelect = document.createElement("select");
+    sortSelect.innerHTML = `
+      <option value="name">Name</option>
+      <option value="price">Price</option>
+    `;
+    this.listElement.before(sortSelect);
+
+    // Attach event listener
+    sortSelect.addEventListener("change", (event) => {
+      const sortBy = event.target.value;
+      this.sortProducts(sortBy);
+    });
   }
 
   renderList(list) {
