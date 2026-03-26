@@ -325,6 +325,75 @@ button {
   color: var(--light-grey);
   font-size: var(--small-font);
 }
+
+/* --- Category Cards Styles (Activity W03) --- */
+
+.category-cards {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.category-cards h2 {
+  font-family: var(--font-headline);
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.category-item {
+  text-decoration: none;
+  color: var(--dark-grey);
+  flex: 1 1 150px;
+  max-width: 200px;
+  padding: 1rem;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-item img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.category-item p {
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+
+/* Efecto hover para que el usuario sepa que es clickeable */
+.category-item:hover {
+  border: 1px solid var(--light-grey);
+  box-shadow: 2px 2px 10px var(--light-grey);
+  transform: translateY(-5px);
+}
+
+.category-item:hover img {
+  transform: scale(1.1);
+}
+
+/* Ajuste para móviles */
+@media screen and (max-width: 500px) {
+  .category-grid {
+    gap: 1rem;
+  }
+  .category-item {
+    flex: 1 1 40%;
+  }
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
