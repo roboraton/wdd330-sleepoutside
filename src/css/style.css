@@ -384,7 +384,40 @@ button {
   transform: scale(1.1);
 }
 
-/* Ajuste para móviles */
+/* --- Individual Task: Discount Flag Styles --- */
+
+/* Strikes through the original MSRP price */
+.original-price {
+  text-decoration: line-through;
+  color: var(--light-grey);
+  font-size: var(--small-font);
+  margin-right: 8px;
+}
+
+/* Highlights the current sale price */
+.sale-price {
+  color: var(--tertiary-color);
+  font-weight: bold;
+  font-size: var(--large-font);
+}
+
+/* Professional discount badge with high contrast */
+.discount-badge {
+  background-color: #cc0000; /* Alert red to catch attention */
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Setting mobile */
 @media screen and (max-width: 500px) {
   .category-grid {
     gap: 1rem;
