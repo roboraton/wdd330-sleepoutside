@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, formDataToJSON } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, formDataToJSON, alertMessage } from './utils.mjs';
 import ExternalServices from './ExternalServices.mjs';
 
 const services = new ExternalServices();
@@ -79,6 +79,10 @@ export default class CheckoutProcess {
 
     } catch (err) {
       console.error(err);
+
+      alertMessage(
+        err?.message?.message || "An error occurred during checkout. Please try again."
+      );
     }
   }
 }
