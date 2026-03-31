@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, formDataToJSON } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, formDataToJSON, alertMessage } from './utils.mjs';
 import ExternalServices from './ExternalServices.mjs';
 
 const services = new ExternalServices();
@@ -73,9 +73,16 @@ export default class CheckoutProcess {
     try {
       const res = await services.checkout(json);
       console.log(res);
-      // Next activity: handle success/fail UI
+
+      setLocalStorage("so-cart", []);
+      window.location.href = "/checkout/success.html";
+
     } catch (err) {
       console.error(err);
+
+      alertMessage(
+        err?.message?.message || "An error occurred during checkout. Please try again."
+      );
     }
   }
 }
