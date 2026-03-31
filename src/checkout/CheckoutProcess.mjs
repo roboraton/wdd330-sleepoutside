@@ -73,7 +73,10 @@ export default class CheckoutProcess {
     try {
       const res = await services.checkout(json);
       console.log(res);
-      // Next activity: handle success/fail UI
+
+      setLocalStorage("so-cart", []);
+      window.location.href = "/checkout/success.html";
+
     } catch (err) {
       console.error(err);
     }
