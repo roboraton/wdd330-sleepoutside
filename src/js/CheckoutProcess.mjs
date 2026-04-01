@@ -49,7 +49,6 @@ export default class CheckoutProcess {
 
   calculateOrderTotal() {
     if (this.list.length > 0) {
-      // Basic shipping: $10 for the first item + $2 for each additional item
       this.shipping = 10 + (this.list.length - 1) * 2;
       this.tax = (this.itemTotal * 0.06).toFixed(2);
     } else {

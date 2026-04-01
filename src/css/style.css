@@ -605,7 +605,7 @@ button {
   position: absolute;
   top: -8px; /* Position it above the icon */
   right: -10px;
-  background-color: var(--tertiary-color); /* Usually #8a470c in your file */
+  background-color: var(--tertiary-color);
   color: white;
   border-radius: 50%;
   padding: 2px;
@@ -624,6 +624,89 @@ button {
   display: none !important;
 }
 
+/* Layout for the icons in the header */
+.header-icons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px; /* Space between heart and backpack */
+}
+
+/* Style for the wishlist heart */
+.wishlist-icon svg {
+  color: #303030;
+  transition: color 0.3s ease;
+}
+
+.wishlist-icon svg:hover {
+  color: #ff4757; /* Turns red on hover */
+  fill: #ff4757;
+}
+
+/* Ensure the backpack icon also looks good */
+.cart svg {
+  vertical-align: middle;
+}
+
+/* --- Product Detail Buttons Logic --- */
+
+.product-detail__add {
+  display: flex;
+  flex-direction: column; /* Stacked on small screens (mobile first) */
+  gap: 1rem;              /* This creates the separation between buttons */
+  margin: 1.5rem 0;
+  padding: 0 1rem;
+}
+
+/* Button Secondary (Wishlist) customization */
+.button-secondary {
+  background-color: white;
+  color: var(--dark-grey);
+  border: 2px solid var(--secondary-color);
+  transition: all 0.3s ease;
+}
+
+.button-secondary:hover {
+  background-color: #f0f0f0;
+  border-color: #ff4757; /* Heart red color on hover */
+  color: #ff4757;
+}
+
+/* Desktop Adjustment: Side by Side */
+@media screen and (min-width: 500px) {
+  .product-detail__add {
+    flex-direction: row;    /* Horizontal on tablet/desktop */
+    justify-content: center;
+    gap: 2rem;              /* Larger gap for larger screens */
+  }
+
+  #addToCart, .button-secondary {
+    flex: 1;                /* Both buttons share equal width */
+    max-width: 200px;       /* Prevents buttons from being too wide */
+    margin: 0;              /* Resets the 'auto' margin from global button styles */
+  }
+}
+
+/* Style for the wishlist emoji in the header */
+#wishlist-emoji {
+  font-size: 1.6rem; /* Adjust size to match the backpack icon */
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+/* Subtle animation when hovering */
+#wishlist-emoji:hover {
+  transform: scale(1.2); /* Makes the heart "pop" when hovered */
+}
+
+/* Ensure the container keeps icons side by side */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 /* Media Queries */
 
 /* Mobile Settings */
