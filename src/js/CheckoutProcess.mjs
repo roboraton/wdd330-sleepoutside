@@ -1,4 +1,4 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, alertMessage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
@@ -40,7 +40,7 @@ export default class CheckoutProcess {
 
   calculateItemSummary() {
     const summaryElement = document.querySelector(`${this.outputSelector} #itemTotal`);
-    const amounts = this.list.map((item) => item.FinalPrice);
+    const amounts = this.list.map((item) => item.FinalPrice || item.price);
     this.itemTotal = amounts.reduce((sum, item) => sum + item, 0);
     if (summaryElement) {
       summaryElement.innerText = `$${this.itemTotal.toFixed(2)}`;
@@ -49,6 +49,7 @@ export default class CheckoutProcess {
 
   calculateOrderTotal() {
     if (this.list.length > 0) {
+      // Basic shipping: $10 for the first item + $2 for each additional item
       this.shipping = 10 + (this.list.length - 1) * 2;
       this.tax = (this.itemTotal * 0.06).toFixed(2);
     } else {
@@ -78,26 +79,37 @@ export default class CheckoutProcess {
   async checkout(form) {
     const json = formDataToJSON(form);
     
+    // Add required order metadata
     json.orderDate = new Date().toISOString();
     json.orderTotal = String(this.orderTotal); 
     json.tax = String(this.tax);
     json.shipping = String(this.shipping);
     json.items = packageItems(this.list);
 
-    console.log("Final Payload:", json);
-
     try {
       const res = await services.checkout(json);
       console.log("Server Success:", res);
       
+      // Clear cart and redirect on success
       localStorage.removeItem(this.key);
-      alert("Order placed successfully!");
       location.assign("./success.html"); 
     } catch (err) {
+      // Clear any existing alerts
+      const existingAlert = document.querySelector(".alert");
+      if (existingAlert) existingAlert.remove();
+
+      // Handle server validation errors
+      const errorData = await err.message; 
+      
+      if (typeof errorData === 'object' && errorData !== null) {
+        for (const key in errorData) {
+          alertMessage(errorData[key]);
+        }
+      } else {
+        alertMessage(errorData || "An unknown error occurred.");
+      }
+      
       console.error("Server Error:", err);
-      // Let's see the EXACT error message in the alert
-      const msg = err.message?.message || JSON.stringify(err.message) || "Unknown Error";
-      alert("Submission Failed: " + msg);
     }
-}
+  }
 }

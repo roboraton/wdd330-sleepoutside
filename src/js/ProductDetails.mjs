@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, updateCartCount } from './utils.mjs';
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -7,42 +7,39 @@ export default class ProductDetails {
     this.dataSource = dataSource;
   }
 
-  async init() {
-    // Fetch product data from the API
+  // ProductDetails.mjs - Revised init and addProductToCart
+async init() {
     this.product = await this.dataSource.findProductById(this.productId);
-    
-    // Render the product details on the page
     this.renderProductDetails();
 
-    // Add event listener to the "Add to Cart" button
-    document
-      .getElementById('addToCart')
-      .addEventListener('click', this.addProductToCart.bind(this));
-  }
-
-  addProductToCart() {
-    let cartItems = getLocalStorage('so-cart');
-    if (!Array.isArray(cartItems)) {
-      cartItems = [];
+    // IMPORTANT: Select the button ONLY AFTER it has been rendered in the innerHTML
+    const addButton = document.getElementById('addToCart');
+    if (addButton) {
+        addButton.addEventListener('click', this.addProductToCart.bind(this));
     }
-    cartItems.push(this.product);
-    setLocalStorage('so-cart', cartItems);
-    alert("Product added to cart!");
-  }
+}
 
+addProductToCart() {
+  let cartItems = getLocalStorage('so-cart') || [];
+  cartItems.push(this.product);
+  setLocalStorage('so-cart', cartItems);
+  
+  // Call this to update the UI without refreshing the page
+  updateCartCount();
+  
+  alert("Product added to cart!");
+}
   renderProductDetails() {
     // Calculate the discount percentage
-    // Formula: ((Original - Sale) / Original) * 100
     const originalPrice = this.product.SuggestedRetailPrice;
     const salePrice = this.product.ListPrice;
     const discountPercent = Math.round(((originalPrice - salePrice) / originalPrice) * 100);
 
-    // Conditional rendering: show the badge only if there is a discount
+    // Render the discount badge only if a discount exists
     const discountBadge = discountPercent > 0 
       ? `<span class="discount-badge">Save ${discountPercent}%</span>` 
       : "";
 
-    // Update the DOM with the product information
     document.querySelector('.product-detail').innerHTML = `
         <h3>${this.product.Brand.Name}</h3>
         <h2 class="divider">${this.product.NameWithoutBrand}</h2>
