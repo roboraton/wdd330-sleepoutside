@@ -3,26 +3,34 @@ import { getLocalStorage, setLocalStorage, loadHeaderFooter } from './utils.mjs'
 loadHeaderFooter();
 
 function renderCartContents() {
-  const cartItems = getLocalStorage('so-cart');
+  const cartItems = getLocalStorage('so-cart') || [];
   const productList = document.querySelector('.product-list');
-  if (cartItems && cartItems.length > 0) {
+  const cartFooter = document.querySelector('.cart-footer');
+
+  if (cartItems.length > 0) {
     const htmlItems = cartItems.map((item, index) =>
       cartItemTemplate(item, index),
     );
     productList.innerHTML = htmlItems.join('');
+    
+    cartFooter.classList.remove('hide');
+    calculateCartTotal(cartItems);
   } else {
     productList.innerHTML = '<li>Your cart is empty.</li>';
+    cartFooter.classList.add('hide');
   }
 }
 
+function calculateCartTotal(items) {
+  const total = items.reduce((sum, item) => sum + item.FinalPrice, 0);
+  document.querySelector('#cart-total-value').innerText = total.toFixed(2);
+}
+
 function cartItemTemplate(item, index) {
-  const newItem = `<li class="cart-card divider">
+  return `<li class="cart-card divider">
     <span class="cart-card__remove" data-id="${index}">X</span>
     <a href="#" class="cart-card__image">
-      <img
-        src="${item.Images.PrimaryMedium}" 
-        alt="${item.Name}"
-      />
+      <img src="${item.Images.PrimaryMedium}" alt="${item.Name}" />
     </a>
     <a href="#">
       <h2 class="card__name">${item.Name}</h2>
@@ -31,8 +39,6 @@ function cartItemTemplate(item, index) {
     <p class="cart-card__quantity">qty: 1</p>
     <p class="cart-card__price">$${item.FinalPrice}</p>
   </li>`;
-
-  return newItem;
 }
 
 function removeFromCart(itemIndex) {
@@ -44,7 +50,7 @@ function removeFromCart(itemIndex) {
 
 document.querySelector('.product-list').addEventListener('click', (e) => {
   if (e.target.classList.contains('cart-card__remove')) {
-    removeFromCart(e.target.dataset.id);
+    removeFromCart(parseInt(e.target.dataset.id));
   }
 });
 
