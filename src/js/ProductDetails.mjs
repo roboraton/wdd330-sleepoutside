@@ -45,6 +45,12 @@ addProductToCart() {
     <h3>${this.product.Brand.Name}</h3>
     <h2 class="divider">${this.product.NameWithoutBrand}</h2>
     <img class="divider" src="${this.product.Images.PrimaryLarge}" alt="${this.product.Name}" />
+    ${this.product.SuggestedRetailPrice > this.product.FinalPrice 
+      ? `<p class="original-price">$${this.product.SuggestedRetailPrice}</p>
+        <span class="discount-badge">
+          $${(this.product.SuggestedRetailPrice - this.product.FinalPrice).toFixed(2)} OFF
+        </span>` 
+      : ""}
     <p class="product-card__price">$${this.product.FinalPrice}</p>
     <p class="product__color">${this.product.Colors?.[0]?.ColorName || "N/A"}</p>
     <p class="product__description">${this.product.DescriptionHtmlSimple}</p>

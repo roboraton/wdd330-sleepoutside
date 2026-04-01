@@ -391,3 +391,20 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+.discount-badge {
+  display: inline-block;
+  background: red;
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: gray;
+  font-size: 1.2rem;
+}
